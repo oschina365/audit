@@ -1,4 +1,4 @@
-package com.kz.audit.controller;
+package com.kz.audit.controller.profile;
 
 
 import com.kz.audit.service.alipay.AlipayProfileService;

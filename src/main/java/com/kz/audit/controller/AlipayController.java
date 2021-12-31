@@ -2,9 +2,9 @@ package com.kz.audit.controller;
 
 
 import com.alipay.api.response.AlipayOpenMiniVersionListQueryResponse;
-import com.kz.audit.dao.AuditAlipayDAO;
+import com.kz.audit.dao.alipay.AuditAlipayDAO;
 import com.kz.audit.entity.ApiResult;
-import com.kz.audit.entity.AuditAlipayEntity;
+import com.kz.audit.entity.alipay.AuditAlipayEntity;
 import org.springframework.web.bind.annotation.*;
 
 /**

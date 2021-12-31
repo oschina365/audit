@@ -46,7 +46,7 @@ public class DBManager {
     /**
      * 初始化连接池
      */
-    private final static void initDataSources() {
+    public final static void initDataSources() {
         try (InputStream stream = DBManager.class.getResourceAsStream("/database.ini")) {
             Ini ini = new Ini(stream);
             Class dsName = Class.forName(ini.get(SECTION_GLOBAL, "datasource"));

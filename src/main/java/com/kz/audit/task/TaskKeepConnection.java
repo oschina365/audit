@@ -1,7 +1,7 @@
 package com.kz.audit.task;
 
 
-import com.kz.audit.entity.AuditAlipayEntity;
+import com.kz.audit.entity.alipay.AuditAlipayEntity;
 import com.kz.audit.entity.db.DbQuery;
 import com.kz.audit.entity.db.TransactionService;
 import org.springframework.scheduling.annotation.Scheduled;

@@ -1,6 +1,5 @@
 package com.kz.audit;
 
-import com.kz.audit.server.WebsocketStarter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -31,11 +30,11 @@ public class AuditApplication extends SpringBootServletInitializer {
             public void onStartup(ServletContext servletContext) throws ServletException {
                 //new QiNiuApi(ConfigTool.getProp("qiniu.access"), ConfigTool.getProp("qiniu.secret"), ConfigTool.getProp("qiniu.bucket"));
                 logger.info("启动成功");
-                try {
+                /*try {
                     WebsocketStarter.start();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         };
     }

@@ -89,13 +89,25 @@ public abstract class Entity implements Serializable {
     }
 
     /**
+     * 分页列出所有对象
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+    public List<Long> listIds(int page, int size) {
+        String sql = "SELECT * FROM " + rawTableName() + " ORDER BY id DESC";
+        return DbQuery.get(databaseName()).query_slice(Long.class, sql, page, size);
+    }
+
+    /**
      * 查询所有对象
      *
      * @return
      */
     public List<? extends Entity> list(boolean fromCache) {
         String sql = "SELECT * FROM " + rawTableName();
-        if(fromCache){
+        if (fromCache) {
             return DbQuery.get(databaseName()).query_cache(getClass(), cacheNullObject(), cacheRegion(), "all", sql);
         }
         return DbQuery.get(databaseName()).query(getClass(), sql);
@@ -127,7 +139,7 @@ public abstract class Entity implements Serializable {
      */
     public final String rawTableName() {
         String schemaName = schemaName();
-        return (schemaName != null) ? "\"" + schemaName + "\"." + tableName() : tableName();
+        return (schemaName != null) ? "`" + schemaName + "`." + tableName() : tableName();
     }
 
     protected String tableName() {

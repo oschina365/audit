@@ -62,6 +62,10 @@ public class CacheMgr {
         cache.clear(region);
     }
 
+    public static Collection<CacheChannel.Region> regions() {
+        return cache.regions();
+    }
+
     public static Collection<String> keys(String region) {
         return cache.keys(region);
     }

@@ -1,5 +1,6 @@
-package com.kz.audit.dao;
+package com.kz.audit.dao.alipay;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.FileItem;
 import com.alipay.api.domain.AppVersionInfo;
@@ -9,8 +10,9 @@ import com.alipay.api.response.*;
 import com.kz.audit.alipay.*;
 import com.kz.audit.constants.alipay.AlipayAppVersionEnum;
 import com.kz.audit.constants.alipay.AlipayIsvConstant;
+import com.kz.audit.dao.CommonDao;
 import com.kz.audit.entity.ApiResult;
-import com.kz.audit.entity.AuditAlipayEntity;
+import com.kz.audit.entity.alipay.AuditAlipayEntity;
 import com.kz.audit.util.FileUtils;
 import lombok.extern.java.Log;
 import org.apache.commons.lang.StringUtils;
@@ -42,6 +44,17 @@ public class AuditAlipayDAO extends CommonDao<AuditAlipayEntity> {
     /**
      * 查询单个商户数据
      *
+     * @param token
+     * @return
+     */
+    public AuditAlipayEntity getByToken(String token) {
+        String sql = "select * from " + AuditAlipayEntity.ME.tableName() + " where token =?";
+        return getDbQuery().read(AuditAlipayEntity.class, sql, token);
+    }
+
+    /**
+     * 查询单个商户数据
+     *
      * @param id
      * @return
      */
@@ -59,7 +72,7 @@ public class AuditAlipayDAO extends CommonDao<AuditAlipayEntity> {
      * @return
      */
     public List<AuditAlipayEntity> list(int type, int page, int size) {
-        String sql = "select * from " + AuditAlipayEntity.ME.tableName() + " where type=? order by create_time desc";
+        String sql = "select * from " + AuditAlipayEntity.ME.tableName() + " where type=? order by tenant_code asc";
         return getDbQuery().query_slice(AuditAlipayEntity.class, sql, page, size, type);
     }
 
@@ -470,6 +483,56 @@ public class AuditAlipayDAO extends CommonDao<AuditAlipayEntity> {
         }
         config.setAppAuthToken(entity.getToken());
         return config;
+    }
+
+    /**
+     * 获取最大的版本号
+     *
+     * @return
+     */
+    public String getMaxAppVersion(AuditAlipayEntity entity) {
+        AlipayOpenMiniVersionListQueryResponse response = miniVersionListQuery(entity);
+        if (response == null) {
+            System.out.println((String.format("商户[%s]版本列表查询失败", entity.getName())));
+            return null;
+        }
+        List<AppVersionInfo> versionInfoList = response.getAppVersionInfos();
+        if (versionInfoList == null || versionInfoList.isEmpty()) {
+            System.out.println((String.format("商户[%s]版本列表为空！", entity.getName())));
+            return "0.0.0";
+        }
+        AppVersionInfo info = versionInfoList.stream().findFirst().orElse(null);
+        if (info == null) {
+            System.out.println((String.format("商户[%s]暂无开发版！", entity.getName())));
+            return "0.0.0";
+        }
+        if (StrUtil.equalsIgnoreCase(info.getVersionStatus(), AlipayAppVersionEnum.WAIT_RELEASE.getKey())) {
+
+        }
+        return info.getAppVersion();
+    }
+
+    /**
+     * 获取上传的版本号
+     *
+     * @param appVersion
+     * @return
+     */
+    public String getUploadVersion(String appVersion) {
+        if (StrUtil.isBlank(appVersion)) {
+            return "0.0.1";
+        }
+        String[] split = StrUtil.split(appVersion, ".");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < split.length; i++) {
+            if (i != (split.length - 1)) {
+                sb.append(split[i]);
+                sb.append(".");
+            } else {
+                sb.append(Integer.valueOf(split[i]) + 1);
+            }
+        }
+        return sb.toString();
     }
 
 }

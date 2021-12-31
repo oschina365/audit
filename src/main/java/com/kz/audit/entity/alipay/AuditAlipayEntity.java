@@ -1,4 +1,4 @@
-package com.kz.audit.entity;
+package com.kz.audit.entity.alipay;
 
 
 import com.kz.audit.entity.db.Entity;
@@ -44,4 +44,9 @@ public class AuditAlipayEntity extends Entity implements Serializable {
     private Integer type;
 
     private String create_ip;
+
+    private String appid;
+
+    private String tenant_code;
+
 }
