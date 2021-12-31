@@ -2,20 +2,13 @@ package com.kz.audit.service.alipay.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.FileItem;
-import com.alipay.api.request.AlipayInsScenePetprofilePlatformprofileCheckRequest;
-import com.alipay.api.request.AlipayInsScenePetprofilePlatformprofileCreateRequest;
-import com.alipay.api.request.AlipayInsScenePetprofilePlatformprofileQueryRequest;
-import com.alipay.api.request.AlipayOpenFileUploadRequest;
-import com.alipay.api.response.AlipayInsScenePetprofilePlatformprofileCheckResponse;
-import com.alipay.api.response.AlipayInsScenePetprofilePlatformprofileCreateResponse;
-import com.alipay.api.response.AlipayInsScenePetprofilePlatformprofileQueryResponse;
-import com.alipay.api.response.AlipayOpenFileUploadResponse;
+import com.alipay.api.request.*;
+import com.alipay.api.response.*;
 import com.kz.audit.alipay.AlipayBaseConfig;
 import com.kz.audit.alipay.AlipayUtil;
 import com.kz.audit.constants.alipay.AlipayProfileConstant;
 import com.kz.audit.service.alipay.AlipayProfileService;
-import com.kz.audit.vo.alipay.profile.AlipayProfileCheckVO;
-import com.kz.audit.vo.alipay.profile.AlipayProfileCreateVO;
+import com.kz.audit.vo.alipay.profile.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,4 +113,73 @@ public class AlipayProfileServiceImpl implements AlipayProfileService {
         }
         return response;
     }
+
+    /**
+     * 宠物档案修改
+     *
+     * @param vo
+     * @return
+     */
+    @Override
+    public AlipayInsScenePetprofilePlatformprofileModifyResponse modify(AlipayProfileModifyVO vo) {
+        AlipayInsScenePetprofilePlatformprofileModifyRequest request = new AlipayInsScenePetprofilePlatformprofileModifyRequest();
+        request.setBizContent(JSONObject.toJSONString(vo));
+        AlipayInsScenePetprofilePlatformprofileModifyResponse response = (AlipayInsScenePetprofilePlatformprofileModifyResponse) alipayUtil.execute(request, config());
+        if (response == null || !response.isSuccess()) {
+            log.error("method>>>{} error，request param :{}", request.getApiMethodName(), JSONObject.toJSONString(vo));
+        }
+        return response;
+    }
+
+    /**
+     * 宠物档案删除
+     *
+     * @param petId
+     * @return
+     */
+    @Override
+    public AlipayInsScenePetprofilePlatformprofileDeleteResponse delete(String petId) {
+        AlipayInsScenePetprofilePlatformprofileDeleteRequest request = new AlipayInsScenePetprofilePlatformprofileDeleteRequest();
+        request.setBizContent("{\"pet_id\":\"" + petId + "\"}");
+        AlipayInsScenePetprofilePlatformprofileDeleteResponse response = (AlipayInsScenePetprofilePlatformprofileDeleteResponse) alipayUtil.execute(request, config());
+        if (response == null || !response.isSuccess()) {
+            log.error("method>>>{} error，request param :{}", request.getApiMethodName(), petId);
+        }
+        return response;
+    }
+
+    /**
+     * 宠物身份核验
+     *
+     * @param vo
+     * @return
+     */
+    @Override
+    public AlipayInsScenePetprofilePlatformprofileIdentifyResponse identify(AlipayIdentifyVO vo) {
+        AlipayInsScenePetprofilePlatformprofileIdentifyRequest request = new AlipayInsScenePetprofilePlatformprofileIdentifyRequest();
+        request.setBizContent(JSONObject.toJSONString(vo));
+        AlipayInsScenePetprofilePlatformprofileIdentifyResponse response = (AlipayInsScenePetprofilePlatformprofileIdentifyResponse) alipayUtil.execute(request, config());
+        if (response == null || !response.isSuccess()) {
+            log.error("method>>>{} error，request param :{}", request.getApiMethodName(), JSONObject.toJSONString(vo));
+        }
+        return response;
+    }
+
+    /**
+     * 宠物档案匹配
+     *
+     * @param vo
+     * @return
+     */
+    @Override
+    public AlipayInsScenePetprofilePlatformprofileMatchResponse match(AlipayMatchVO vo) {
+        AlipayInsScenePetprofilePlatformprofileMatchRequest request = new AlipayInsScenePetprofilePlatformprofileMatchRequest();
+        request.setBizContent(JSONObject.toJSONString(vo));
+        AlipayInsScenePetprofilePlatformprofileMatchResponse response = (AlipayInsScenePetprofilePlatformprofileMatchResponse) alipayUtil.execute(request, config());
+        if (response == null || !response.isSuccess()) {
+            log.error("method>>>{} error，request param :{}", request.getApiMethodName(), JSONObject.toJSONString(vo));
+        }
+        return response;
+    }
+
 }

@@ -395,6 +395,12 @@ public class AuditAlipayDAO extends CommonDao<AuditAlipayEntity> {
             request.setSecondScreenShot(new FileItem(second));
         }
         if (entity.getType() == 1) {
+            String logoPath = FileUtils.downloadImage(logo);
+            System.out.println(logoPath);
+            File logoFile = new File(logoPath);
+            // FileItem logo1 = new FileItem("logo", FileUtils.getFileStream(logo), "image/png");
+            System.out.println(logoFile.exists());
+            request.setAppLogo(new FileItem(logoFile));
             request.setAppSlogan("支付宝商城");
             //零售电商_大型超市  XS1020_XS2169
             request.setMiniCategoryIds("XS1020_XS2169");
@@ -440,6 +446,7 @@ public class AuditAlipayDAO extends CommonDao<AuditAlipayEntity> {
         System.out.println(JSONObject.toJSONString(execute));
         return ApiResult.success();
     }
+
 
     /**
      * 阿里配置

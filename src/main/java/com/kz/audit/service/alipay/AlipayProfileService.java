@@ -1,11 +1,8 @@
 package com.kz.audit.service.alipay;
 
-import com.alipay.api.response.AlipayInsScenePetprofilePlatformprofileCheckResponse;
-import com.alipay.api.response.AlipayInsScenePetprofilePlatformprofileCreateResponse;
-import com.alipay.api.response.AlipayInsScenePetprofilePlatformprofileQueryResponse;
+import com.alipay.api.response.*;
 import com.kz.audit.alipay.AlipayBaseConfig;
-import com.kz.audit.vo.alipay.profile.AlipayProfileCheckVO;
-import com.kz.audit.vo.alipay.profile.AlipayProfileCreateVO;
+import com.kz.audit.vo.alipay.profile.*;
 
 /**
  * 阿里，宠物识别服务
@@ -53,4 +50,37 @@ public interface AlipayProfileService {
      * @return
      */
     AlipayInsScenePetprofilePlatformprofileQueryResponse query(String petId);
+
+    /**
+     * 宠物档案修改
+     *
+     * @param vo
+     * @return
+     */
+    AlipayInsScenePetprofilePlatformprofileModifyResponse modify(AlipayProfileModifyVO vo);
+
+    /**
+     * 宠物档案删除
+     *
+     * @param petId
+     * @return
+     */
+    AlipayInsScenePetprofilePlatformprofileDeleteResponse delete(String petId);
+
+    /**
+     * 宠物身份核验
+     *
+     * @param vo
+     * @return
+     */
+    AlipayInsScenePetprofilePlatformprofileIdentifyResponse identify(AlipayIdentifyVO vo);
+
+    /**
+     * 宠物档案匹配
+     *
+     * @param vo
+     * @return
+     */
+    AlipayInsScenePetprofilePlatformprofileMatchResponse match(AlipayMatchVO vo);
+
 }

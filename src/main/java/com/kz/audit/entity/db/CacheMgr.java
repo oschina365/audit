@@ -17,7 +17,7 @@ public class CacheMgr {
 
     static {
         try {
-            J2CacheConfig config = J2CacheConfig.initFromConfig(new CacheMgr().getClass().getResourceAsStream("j2cache.properties"));
+            J2CacheConfig config = J2CacheConfig.initFromConfig(new CacheMgr().getClass().getResourceAsStream(CONFIG_FILE));
             builder = J2CacheBuilder.init(config);
         } catch (IOException e) {
             throw new CacheException("Failed to load j2cache configuration " + CONFIG_FILE, e);
